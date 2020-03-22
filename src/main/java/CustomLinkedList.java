@@ -1,19 +1,22 @@
-
 public class CustomLinkedList<T> implements CustomList<T> {
+
+    private CustomLinkedListNode<T> head = null;
+    private CustomLinkedListNode<T> last = null;
+    private int nodeCount = 0;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void add(T object) {
-        if(head == null){
-            head=new CustomLinkedListNode<>(object);
-            last=head;
-            nodeCount=1;
+        if (head == null) {
+            head = new CustomLinkedListNode<>(object);
+            last = head;
+            nodeCount = 1;
         } else {
-            CustomLinkedListNode<T> newNode=new CustomLinkedListNode<>(object);
-            last.next=newNode;
-            last=newNode;
+            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
+            last.next = newNode;
+            last = newNode;
             nodeCount++;
         }
     }
@@ -23,22 +26,22 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public void add(T object, int index) {
-        if (nodeCount==index){
+        if (nodeCount == index) {
             add(object);
             return;
         }
 
-        if (index == 0){
-            CustomLinkedListNode<T> newNode=new CustomLinkedListNode<>(object);
-            newNode.next=head;
-            head=newNode;
+        if (index == 0) {
+            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
+            newNode.next = head;
+            head = newNode;
             nodeCount++;
             return;
         }
 
-        CustomLinkedListNode<T> previosNode=findNodeByIndex(index-1);
+        CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
 
-        CustomLinkedListNode<T> newNode=new CustomLinkedListNode<>(object);
+        CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
         newNode.next = previosNode.next;
         previosNode.next = newNode;
         nodeCount++;
@@ -49,7 +52,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T get(int index) {
-        CustomLinkedListNode<T> node=findNodeByIndex(index);
+        CustomLinkedListNode<T> node = findNodeByIndex(index);
         return node.data;
     }
 
@@ -58,9 +61,9 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T update(T object, int index) {
-        CustomLinkedListNode<T> node=findNodeByIndex(index);
-        T previosData=node.data;
-        node.data=object;
+        CustomLinkedListNode<T> node = findNodeByIndex(index);
+        T previosData = node.data;
+        node.data = object;
         return previosData;
     }
 
@@ -69,19 +72,19 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T delete(int index) {
-        if(nodeCount==0){
+        if (nodeCount == 0) {
             throw new CustomListException("Empty list");
         }
-        if(index==0){
-            CustomLinkedListNode<T> node=head;
-            head=head.next;
+        if (index == 0) {
+            CustomLinkedListNode<T> node = head;
+            head = head.next;
             nodeCount--;
             return node.data;
         }
 
-        CustomLinkedListNode<T> previosNode=findNodeByIndex(index-1);
-        T previosData=previosNode.next.data;
-        previosNode.next=previosNode.next.next;
+        CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
+        T previosData = previosNode.next.data;
+        previosNode.next = previosNode.next.next;
         nodeCount--;
         return previosData;
     }
@@ -94,29 +97,25 @@ public class CustomLinkedList<T> implements CustomList<T> {
         return nodeCount;
     }
 
-    private CustomLinkedListNode<T> findNodeByIndex(int index){
-        if (index<0){
-            throw  new CustomListException("Index is negative");
+    private CustomLinkedListNode<T> findNodeByIndex(int index) {
+        if (index < 0) {
+            throw new CustomListException("Index is negative");
         }
 
-        if (nodeCount<=index){
+        if (nodeCount <= index) {
             throw new CustomListException("No such index");
         }
 
-        if (nodeCount==(index+1)) {
+        if (nodeCount == (index + 1)) {
             return last;
         }
 
-        int currentIndex=0;
-        CustomLinkedListNode<T> iterator=head;
-        while (currentIndex!=index){
+        int currentIndex = 0;
+        CustomLinkedListNode<T> iterator = head;
+        while (currentIndex != index) {
             currentIndex++;
-            iterator=iterator.next;
+            iterator = iterator.next;
         }
         return iterator;
     }
-
-    private CustomLinkedListNode<T> head=null;
-    private CustomLinkedListNode<T> last=null;
-    private int nodeCount=0;
 }
