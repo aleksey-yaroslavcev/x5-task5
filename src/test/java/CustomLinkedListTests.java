@@ -76,7 +76,7 @@ public class CustomLinkedListTests {
         CustomLinkedList<String> list = new CustomLinkedList<>();
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.delete(0))
-                .withMessage("Empty list");
+                .withMessage("Index out of range");
 
         list.add("1st String");
         list.add("2nd String");
@@ -89,8 +89,11 @@ public class CustomLinkedListTests {
         assertEquals("5th String", list.delete(2));
         assertEquals(2, list.size());
 
+        assertEquals("2nd String", list.get(0));
+        assertEquals("4th String", list.get(1));
+
         assertThatExceptionOfType(CustomListException.class)
-                .isThrownBy(() -> list.delete(5))
+                .isThrownBy(() -> list.delete(2))
                 .withMessage("Index out of range");
     }
 }

@@ -51,6 +51,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T get(int index) {
+        checkValidIndex(index);
         return findNodeByIndex(index).data;
     }
 
@@ -59,6 +60,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T update(T object, int index) {
+        checkValidIndex(index);
         CustomLinkedListNode<T> node = findNodeByIndex(index);
         T previousData = node.data;
         node.data = object;
@@ -70,21 +72,26 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T delete(int index) {
-        if (nodeCount == 0) {
-            throw new CustomListException("Empty list");
-        }
-        if (index == 0) {
-            CustomLinkedListNode<T> node = first;
-            first = first.next;
-            nodeCount--;
-            return node.data;
+        checkValidIndex(index);
+
+        CustomLinkedListNode<T> previousNode = index == 0 ? null : findNodeByIndex(index - 1);
+        CustomLinkedListNode<T> nodeToDelete = previousNode == null ? first : previousNode.next;
+        T dataToDelete = nodeToDelete.data;
+
+        if(nodeCount == 1){
+            first = last = null;
+        } else {
+            if(index == nodeCount -1){
+                last = previousNode;
+            } else if (index == 0) {
+                first = first.next;
+            } else {
+                previousNode.next = nodeToDelete.next;
+            }
         }
 
-        CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
-        T previosData = previosNode.next.data;
-        previosNode.next = previosNode.next.next;
         nodeCount--;
-        return previosData;
+        return dataToDelete;
     }
 
     /**
@@ -96,10 +103,6 @@ public class CustomLinkedList<T> implements CustomList<T> {
     }
 
     private CustomLinkedListNode<T> findNodeByIndex(int index) {
-        if (index < 0 || index >= nodeCount) {
-            throw new CustomListException("Index out of range");
-        }
-
         if (nodeCount == (index + 1)) {
             return last;
         }
@@ -111,5 +114,11 @@ public class CustomLinkedList<T> implements CustomList<T> {
             iterator = iterator.next;
         }
         return iterator;
+    }
+
+    private void checkValidIndex(int index){
+        if (index < 0 || index >= nodeCount) {
+            throw new CustomListException("Index out of range");
+        }
     }
 }
