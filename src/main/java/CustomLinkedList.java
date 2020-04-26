@@ -1,6 +1,6 @@
 public class CustomLinkedList<T> implements CustomList<T> {
 
-    private CustomLinkedListNode<T> head = null;
+    private CustomLinkedListNode<T> first = null;
     private CustomLinkedListNode<T> last = null;
     private int nodeCount = 0;
 
@@ -9,9 +9,9 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public void add(T object) {
-        if (head == null) {
-            head = new CustomLinkedListNode<>(object);
-            last = head;
+        if (first == null) {
+            first = new CustomLinkedListNode<>(object);
+            last = first;
             nodeCount = 1;
         } else {
             CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
@@ -33,8 +33,8 @@ public class CustomLinkedList<T> implements CustomList<T> {
 
         if (index == 0) {
             CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
-            newNode.next = head;
-            head = newNode;
+            newNode.next = first;
+            first = newNode;
             nodeCount++;
             return;
         }
@@ -76,8 +76,8 @@ public class CustomLinkedList<T> implements CustomList<T> {
             throw new CustomListException("Empty list");
         }
         if (index == 0) {
-            CustomLinkedListNode<T> node = head;
-            head = head.next;
+            CustomLinkedListNode<T> node = first;
+            first = first.next;
             nodeCount--;
             return node.data;
         }
@@ -111,7 +111,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
         }
 
         int currentIndex = 0;
-        CustomLinkedListNode<T> iterator = head;
+        CustomLinkedListNode<T> iterator = first;
         while (currentIndex != index) {
             currentIndex++;
             iterator = iterator.next;
