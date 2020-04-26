@@ -60,6 +60,7 @@ public class CustomLinkedListTests {
         list.add("2nd String");
 
         assertEquals("2nd String", list.update("Last string", 1));
+        assertEquals("Last string", list.get(1));
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.update("3rd String", 2))
