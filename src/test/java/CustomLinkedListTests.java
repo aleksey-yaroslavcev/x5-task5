@@ -46,11 +46,11 @@ public class CustomLinkedListTests {
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.add("String with bad index", 6))
-                .withMessage("No such index");
+                .withMessage("Index out of range");
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.add("String with negative index", -1))
-                .withMessage("Index is negative");
+                .withMessage("Index out of range");
     }
 
     @Test
@@ -63,11 +63,11 @@ public class CustomLinkedListTests {
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.update("3rd String", 2))
-                .withMessage("No such index");
+                .withMessage("Index out of range");
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.update("String with negative index", -1))
-                .withMessage("Index is negative");
+                .withMessage("Index out of range");
     }
 
     @Test
@@ -90,6 +90,6 @@ public class CustomLinkedListTests {
 
         assertThatExceptionOfType(CustomListException.class)
                 .isThrownBy(() -> list.delete(5))
-                .withMessage("No such index");
+                .withMessage("Index out of range");
     }
 }

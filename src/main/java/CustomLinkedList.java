@@ -14,7 +14,8 @@ public class CustomLinkedList<T> implements CustomList<T> {
         if (first == null) {
             first = last = newNode;
         } else {
-            last  = last.next = newNode;
+            last.next = newNode;
+            last = newNode;
         }
     }
 
@@ -23,24 +24,25 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public void add(T object, int index) {
-        if (nodeCount == index) {
-            add(object);
-            return;
+        if(index > nodeCount || index < 0 ){
+            throw new CustomListException("Index out of range");
         }
-
-        if (index == 0) {
-            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
-            newNode.next = first;
-            first = newNode;
-            nodeCount++;
-            return;
-        }
-
-        CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
 
         CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
-        newNode.next = previosNode.next;
-        previosNode.next = newNode;
+
+        if (index == 0){
+            newNode.next = first;
+            first = newNode;
+        } else {
+            CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
+            newNode.next = previosNode.next;
+            previosNode.next = newNode;
+        }
+
+        if(index == nodeCount){
+            last = newNode;
+        }
+
         nodeCount++;
     }
 
@@ -95,12 +97,8 @@ public class CustomLinkedList<T> implements CustomList<T> {
     }
 
     private CustomLinkedListNode<T> findNodeByIndex(int index) {
-        if (index < 0) {
-            throw new CustomListException("Index is negative");
-        }
-
-        if (nodeCount <= index) {
-            throw new CustomListException("No such index");
+        if (index < 0 || index >= nodeCount) {
+            throw new CustomListException("Index out of range");
         }
 
         if (nodeCount == (index + 1)) {
