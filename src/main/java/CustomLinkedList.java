@@ -1,7 +1,16 @@
 public class CustomLinkedList<T> implements CustomList<T> {
 
-    private CustomLinkedListNode<T> first = null;
-    private CustomLinkedListNode<T> last = null;
+    private class Node<T> {
+        public T data;
+        public Node<T> next = null;
+
+        public Node(T sourceData) {
+            data = sourceData;
+        }
+    }
+
+    private Node<T> first = null;
+    private Node<T> last = null;
     private int nodeCount = 0;
 
     /**
@@ -9,7 +18,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public void add(T object) {
-        CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
+        Node<T> newNode = new Node<>(object);
         nodeCount++;
         if (first == null) {
             first = last = newNode;
@@ -28,13 +37,13 @@ public class CustomLinkedList<T> implements CustomList<T> {
             throw new CustomListException("Index out of range");
         }
 
-        CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
+        Node<T> newNode = new Node<>(object);
 
         if (index == 0){
             newNode.next = first;
             first = newNode;
         } else {
-            CustomLinkedListNode<T> previosNode = findNodeByIndex(index - 1);
+            Node<T> previosNode = findNodeByIndex(index - 1);
             newNode.next = previosNode.next;
             previosNode.next = newNode;
         }
@@ -61,7 +70,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
     @Override
     public T update(T object, int index) {
         checkValidIndex(index);
-        CustomLinkedListNode<T> node = findNodeByIndex(index);
+        Node<T> node = findNodeByIndex(index);
         T previousData = node.data;
         node.data = object;
         return previousData;
@@ -74,8 +83,8 @@ public class CustomLinkedList<T> implements CustomList<T> {
     public T delete(int index) {
         checkValidIndex(index);
 
-        CustomLinkedListNode<T> previousNode = index == 0 ? null : findNodeByIndex(index - 1);
-        CustomLinkedListNode<T> nodeToDelete = previousNode == null ? first : previousNode.next;
+        Node<T> previousNode = index == 0 ? null : findNodeByIndex(index - 1);
+        Node<T> nodeToDelete = previousNode == null ? first : previousNode.next;
         T dataToDelete = nodeToDelete.data;
 
         if(nodeCount == 1){
@@ -102,13 +111,13 @@ public class CustomLinkedList<T> implements CustomList<T> {
         return nodeCount;
     }
 
-    private CustomLinkedListNode<T> findNodeByIndex(int index) {
+    private Node<T> findNodeByIndex(int index) {
         if (nodeCount == (index + 1)) {
             return last;
         }
 
         int currentIndex = 0;
-        CustomLinkedListNode<T> iterator = first;
+        Node<T> iterator = first;
         while (currentIndex != index) {
             currentIndex++;
             iterator = iterator.next;
