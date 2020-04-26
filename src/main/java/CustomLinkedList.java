@@ -9,15 +9,12 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public void add(T object) {
+        CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
+        nodeCount++;
         if (first == null) {
-            first = new CustomLinkedListNode<>(object);
-            last = first;
-            nodeCount = 1;
+            first = last = newNode;
         } else {
-            CustomLinkedListNode<T> newNode = new CustomLinkedListNode<>(object);
-            last.next = newNode;
-            last = newNode;
-            nodeCount++;
+            last  = last.next = newNode;
         }
     }
 
