@@ -51,8 +51,7 @@ public class CustomLinkedList<T> implements CustomList<T> {
      */
     @Override
     public T get(int index) {
-        CustomLinkedListNode<T> node = findNodeByIndex(index);
-        return node.data;
+        return findNodeByIndex(index).data;
     }
 
     /**
@@ -61,9 +60,9 @@ public class CustomLinkedList<T> implements CustomList<T> {
     @Override
     public T update(T object, int index) {
         CustomLinkedListNode<T> node = findNodeByIndex(index);
-        T previosData = node.data;
+        T previousData = node.data;
         node.data = object;
-        return previosData;
+        return previousData;
     }
 
     /**
